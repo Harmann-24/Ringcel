@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ringcel | Electronics Distribution</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    :root{
+      --bg:#050608;
+      --bg-2:#0b0d12;
+      --panel:rgba(255,255,255,.06);
+      --panel-strong:rgba(255,255,255,.10);
+      --line:rgba(255,255,255,.10);
+      --text:#f5f7fb;
+      --muted:rgba(245,247,251,.70);
+      --accent:#0a84ff;
+      --accent-2:#67e8f9;
+      --shadow:0 22px 70px rgba(0,0,0,.38);
+      --radius:28px;
+      --radius-lg:36px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+      background:
+        radial-gradient(circle at 18% 12%, rgba(10,132,255,.14), transparent 22%),
+        radial-gradient(circle at 82% 4%, rgba(103,232,249,.10), transparent 20%),
+        linear-gradient(180deg, #050608 0%, #07090d 48%, #040506 100%);
+      color:var(--text);
+      overflow-x:hidden;
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+    }
+
+    a{text-decoration:none}
+    img{max-width:100%; display:block}
+
+    .navbar{
+      background:rgba(7,9,13,.62);
+      backdrop-filter:blur(20px);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .navbar-brand{
+      font-weight:800;
+      letter-spacing:.24em;
+      font-size:.9rem;
+    }
+    .nav-link{
+      color:rgba(255,255,255,.78)!important;
+      font-weight:500;
+      font-size:.95rem;
+      transition:.22s ease;
+    }
+    .nav-link:hover,
+    .nav-link.active{color:#fff!important}
+    .nav-link.active{position:relative}
+    .nav-link.active::after{
+      content:"";
+      position:absolute;
+      left:.55rem;
+      right:.55rem;
+      bottom:-.18rem;
+      height:2px;
+      border-radius:999px;
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+    }
+
+    .glass-card,
+    .product-card,
+    .category-card,
+    .info-card,
+    .panel-card,
+    .story-block{
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(22px);
+      overflow:hidden;
+    }
+
+    .btn-pill,
+    .btn-accent,
+    .btn-soft{
+      border-radius:999px;
+      padding:.9rem 1.2rem;
+      font-weight:600;
+      transition:.25s ease;
+    }
+    .btn-accent{
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      color:#04111f;
+      border:none;
+      box-shadow:0 14px 34px rgba(10,132,255,.25);
+    }
+    .btn-accent:hover{
+      transform:translateY(-1px);
+      filter:brightness(1.03);
+      color:#04111f;
+    }
+    .btn-soft{
+      color:#fff;
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(255,255,255,.06);
+    }
+    .btn-soft:hover{
+      background:rgba(255,255,255,.10);
+      color:#fff;
+      transform:translateY(-1px);
+    }
+
+    .hero{
+      min-height:100vh;
+      display:grid;
+      align-items:center;
+      padding-top:88px;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 50% 20%, rgba(255,255,255,.10), transparent 18%),
+        radial-gradient(circle at 22% 30%, rgba(10,132,255,.18), transparent 16%),
+        radial-gradient(circle at 78% 24%, rgba(103,232,249,.12), transparent 15%);
+      pointer-events:none;
+      opacity:.95;
+    }
+    .hero::after{
+      content:"";
+      position:absolute;
+      inset:auto -10% -22% -10%;
+      height:42vh;
+      background:radial-gradient(circle, rgba(10,132,255,.20), transparent 68%);
+      filter:blur(34px);
+      pointer-events:none;
+    }
+    .hero-inner{
+      position:relative;
+      z-index:1;
+      padding:2rem 0 4rem;
+    }
+    .hero-kicker{
+      display:inline-flex;
+      align-items:center;
+      gap:.55rem;
+      padding:.52rem .92rem;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.06);
+      color:#fff;
+      font-size:.88rem;
+      letter-spacing:.01em;
+      backdrop-filter:blur(14px);
+    }
+    .hero h1{
+      font-size:clamp(2.9rem,7vw,6.2rem);
+      line-height:1.01;
+      font-weight:800;
+      letter-spacing:-.055em;
+      margin:1rem 0 1rem;
+      max-width:12ch;
+    }
+    .hero .lead{
+      color:var(--muted);
+      max-width:46rem;
+      font-size:1.08rem;
+      line-height:1.8;
+    }
+
+    .metric{
+      padding:1rem 1.05rem;
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,.09);
+      background:rgba(255,255,255,.05);
+      text-align:left;
+    }
+    .metric .num{
+      font-size:1.4rem;
+      font-weight:800;
+      letter-spacing:-.03em;
+    }
+    .metric .label{
+      color:var(--muted);
+      font-size:.88rem;
+      margin-top:.15rem;
+    }
+
+    .section-pad{padding:5rem 0}
+    .section-title{
+      font-size:clamp(1.8rem, 4vw, 3.1rem);
+      line-height:1.05;
+      font-weight:800;
+      letter-spacing:-.045em;
+      margin:0;
+    }
+    .section-sub{
+      color:var(--muted);
+      max-width:52rem;
+      font-size:1.02rem;
+      line-height:1.75;
+    }
+
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap:.5rem;
+      padding:.72rem 1rem;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.13);
+      background:rgba(255,255,255,.05);
+      color:#fff;
+      transition:.22s ease;
+      white-space:nowrap;
+      cursor:pointer;
+      user-select:none;
+    }
+    .chip:hover{transform:translateY(-2px); background:rgba(255,255,255,.09); color:#fff}
+    .chip.active{
+      background:rgba(10,132,255,.14);
+      border-color:rgba(10,132,255,.22);
+    }
+
+    .category-card{
+      cursor:pointer;
+      transition:.30s ease;
+      height:100%;
+      position:relative;
+    }
+    .category-card:hover{
+      transform:translateY(-8px);
+      border-color:rgba(103,232,249,.24);
+      box-shadow:0 26px 76px rgba(0,0,0,.44);
+    }
+    .category-art{
+      height:260px;
+      position:relative;
+      display:grid;
+      place-items:center;
+      background:
+        radial-gradient(circle at 50% 22%, rgba(255,255,255,.10), transparent 34%),
+        linear-gradient(135deg, rgba(10,132,255,.20), rgba(255,255,255,.03));
+      overflow:hidden;
+    }
+    .category-art img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      padding:1.25rem;
+      filter:drop-shadow(0 18px 30px rgba(0,0,0,.34));
+      transform:scale(1.01);
+    }
+    .category-pill{
+      position:absolute;
+      top:14px;
+      left:14px;
+      font-size:.78rem;
+      background:rgba(0,0,0,.44);
+      border:1px solid rgba(255,255,255,.12);
+      padding:.36rem .72rem;
+      border-radius:999px;
+      z-index:2;
+    }
+    .category-card h3{font-size:1.15rem; letter-spacing:-.02em}
+    .category-card p{color:var(--muted); line-height:1.7}
+
+    .product-card{
+      transition:.28s ease;
+      height:100%;
+    }
+    .product-card:hover{
+      transform:translateY(-6px);
+      border-color:rgba(255,255,255,.16);
+    }
+    .product-image{
+      position:relative;
+      min-height:285px;
+      display:grid;
+      place-items:center;
+      padding:1rem;
+      background:
+        radial-gradient(circle at 50% 22%, rgba(255,255,255,.10), transparent 34%),
+        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+      overflow:hidden;
+    }
+    .product-image img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      max-height:250px;
+      filter:drop-shadow(0 16px 28px rgba(0,0,0,.28));
+      transform:translateZ(0);
+    }
+    .product-body{
+      padding:1.1rem 1.1rem 1.2rem;
+    }
+    .product-name{
+      font-size:1.1rem;
+      font-weight:700;
+      letter-spacing:-.02em;
+      line-height:1.2;
+      margin:0;
+    }
+    .product-meta{
+      color:var(--muted);
+      font-size:.92rem;
+      line-height:1.55;
+    }
+    .price{
+      font-weight:800;
+      letter-spacing:-.02em;
+      font-size:1.08rem;
+    }
+
+    .badge-soft{
+      display:inline-flex;
+      align-items:center;
+      gap:.35rem;
+      background:rgba(10,132,255,.12);
+      color:#bde1ff;
+      border:1px solid rgba(10,132,255,.16);
+      border-radius:999px;
+      padding:.35rem .65rem;
+      font-size:.78rem;
+      white-space:nowrap;
+    }
+    .badge-dark{
+      background:rgba(255,255,255,.07);
+      color:#fff;
+      border-color:rgba(255,255,255,.10);
+    }
+
+    .input-group .form-control,
+    .form-control,
+    .form-select{
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.14);
+      color:#fff;
+      border-radius:14px;
+    }
+    .input-group .form-control::placeholder,
+    .form-control::placeholder{color:rgba(255,255,255,.45)}
+    .input-group .form-control:focus,
+    .form-control:focus,
+    .form-select:focus{
+      background:rgba(255,255,255,.07);
+      color:#fff;
+      border-color:rgba(103,232,249,.46);
+      box-shadow:0 0 0 .22rem rgba(10,132,255,.14);
+    }
+    .form-select option{color:#111;}
+
+    .page-top{
+      padding-top:7.8rem;
+      padding-bottom:2rem;
+    }
+
+    .hero-shell{
+      border-radius:var(--radius-lg);
+      border:1px solid rgba(255,255,255,.10);
+      background:
+        radial-gradient(circle at 50% 20%, rgba(255,255,255,.14), transparent 20%),
+        linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      overflow:hidden;
+    }
+
+    .section-grid{
+      display:grid;
+      grid-template-columns:repeat(12, minmax(0, 1fr));
+      gap:1.2rem;
+    }
+
+    .feature-block{
+      grid-column:span 4;
+      padding:1.25rem;
+      border-radius:24px;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.08);
+    }
+    .feature-block strong{
+      display:block;
+      margin-bottom:.35rem;
+      font-size:1rem;
+    }
+    .feature-block span{
+      color:var(--muted);
+      font-size:.94rem;
+      line-height:1.65;
+    }
+
+    .section-sticky{
+      position:sticky;
+      top:98px;
+    }
+
+    .product-hero{
+      position:relative;
+      overflow:hidden;
+      border-radius:var(--radius-lg);
+      border:1px solid rgba(255,255,255,.10);
+      background:
+        radial-gradient(circle at 50% 15%, rgba(255,255,255,.12), transparent 25%),
+        linear-gradient(135deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+      min-height:520px;
+      display:grid;
+      align-items:center;
+    }
+    .product-hero img{
+      width:100%;
+      max-height:470px;
+      object-fit:contain;
+      padding:1.6rem;
+      filter:drop-shadow(0 26px 34px rgba(0,0,0,.34));
+    }
+
+    .spec-grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:1rem;
+    }
+    .spec{
+      padding:1rem 1rem 1.05rem;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:18px;
+    }
+    .spec .k{
+      color:var(--muted);
+      font-size:.82rem;
+      margin-bottom:.28rem;
+    }
+    .spec .v{
+      font-size:.98rem;
+      font-weight:600;
+      letter-spacing:-.01em;
+    }
+
+    .story-block{
+      border-radius:var(--radius-lg);
+      background:linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.08);
+      padding:1.2rem;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .story-mosaic{
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:1rem;
+    }
+    .mosaic-image{
+      min-height:330px;
+      border-radius:28px;
+      border:1px solid rgba(255,255,255,.10);
+      background:
+        radial-gradient(circle at 50% 25%, rgba(255,255,255,.10), transparent 30%),
+        linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+      overflow:hidden;
+      display:grid;
+      place-items:center;
+      position:relative;
+    }
+    .mosaic-image img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      padding:1.25rem;
+      filter:drop-shadow(0 18px 30px rgba(0,0,0,.30));
+    }
+
+    .scroll-reveal{
+      opacity:0;
+      transform:translateY(18px);
+      transition:opacity .7s ease, transform .7s ease;
+      will-change:opacity, transform;
+    }
+    .scroll-reveal.visible{
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    .float-soft{
+      animation:floatSoft 6.5s ease-in-out infinite;
+    }
+    @keyframes floatSoft{
+      0%,100%{transform:translateY(0)}
+      50%{transform:translateY(-10px)}
+    }
+
+    .cart-fab{
+      position:fixed;
+      right:18px;
+      bottom:18px;
+      width:58px;
+      height:58px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      z-index:1040;
+      border:none;
+      box-shadow:0 18px 36px rgba(0,0,0,.36);
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      color:#04111f;
+      font-weight:800;
+    }
+
+    .offcanvas,
+    .modal-content{
+      background:#06080c;
+      color:#fff;
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .offcanvas-header,
+    .modal-header,
+    .modal-footer{
+      border-color:rgba(255,255,255,.10)!important;
+    }
+
+    .qty-btn{
+      width:34px;
+      height:34px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.06);
+      color:#fff;
+      font-size:1rem;
+    }
+
+    .empty-state{
+      border:1px dashed rgba(255,255,255,.16);
+      background:rgba(255,255,255,.04);
+      border-radius:24px;
+      padding:2rem;
+      color:var(--muted);
+    }
+
+    .fade-up{
+      animation:fadeUp .6s ease both;
+    }
+    @keyframes fadeUp{
+      from{opacity:0; transform:translateY(14px)}
+      to{opacity:1; transform:translateY(0)}
+    }
+
+    .divider{
+      height:1px;
+      background:linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent);
+      margin:1.2rem 0;
+    }
+
+    .hover-lift{
+      transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+    .hover-lift:hover{
+      transform:translateY(-4px);
+      box-shadow:0 24px 60px rgba(0,0,0,.32);
+    }
+
+    .inline-tag{
+      display:inline-flex;
+      align-items:center;
+      gap:.4rem;
+      padding:.34rem .62rem;
+      border-radius:999px;
+      font-size:.78rem;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      color:#fff;
+    }
+
+    .top-strip{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.6rem;
+    }
+
+    @media (max-width: 991px){
+      .hero{min-height:auto; padding-bottom:3rem}
+      .story-mosaic{grid-template-columns:1fr}
+      .spec-grid{grid-template-columns:1fr}
+      .section-sticky{position:relative; top:auto}
+      .feature-block{grid-column:span 12}
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#home">RINGCEL</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto me-lg-3 gap-lg-1">
+          <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#category/aecooly">Aecooly</a></li>
+          <li class="nav-item"><a class="nav-link" href="#category/edifier">Edifier</a></li>
+          <li class="nav-item"><a class="nav-link" href="#category/kica">KiCA</a></li>
+          <li class="nav-item"><a class="nav-link" href="#category/phones">Smartphones</a></li>
+          <li class="nav-item"><a class="nav-link" href="#category/tablets">Tablets</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        </ul>
+
+        <div class="d-flex gap-2 align-items-center">
+          <div id="navSearchWrap" class="input-group input-group-sm" style="max-width:250px;">
+            <span class="input-group-text bg-transparent text-white border-end-0" style="border-color:rgba(255,255,255,.14)">⌕</span>
+            <input id="searchInput" class="form-control border-start-0" type="search" placeholder="Search products" oninput="renderRoute()" />
+          </div>
+          <button class="btn btn-accent btn-sm" onclick="openCart()">Quote <span id="cartCount" class="ms-1">0</span></button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main id="app"></main>
+
+  <button class="cart-fab" type="button" onclick="openCart()" title="Open quote cart">🛒</button>
+
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="cartDrawer" aria-labelledby="cartDrawerLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="cartDrawerLabel">Quotation List</h5>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body d-flex flex-column gap-3">
+      <div id="cartItems" class="d-grid gap-3"></div>
+      <div class="mt-auto pt-3 border-top border-secondary">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <span class="text-secondary">Estimated total</span>
+          <strong id="cartTotal">₹0</strong>
+        </div>
+        <a href="#contact" class="btn btn-accent w-100">Request Bulk Quote</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const categories = {
+      aecooly: {
+        name: 'Aecooly Fans',
+        tag: 'Portable cooling',
+        image: 'https://aecooly.com/cdn/shop/files/PM.png?v=1774925212&width=1200',
+        intro: 'Modern fans for desks, living rooms, and premium office setups.'
+      },
+      edifier: {
+        name: 'Edifier Speakers',
+        tag: 'Premium audio',
+        image: 'https://media-assets.hyperinvento.com/companies/dce3e9fc-06be-4cc3-8fba-3b85f1f32e19/others/others/files/a34af22bb65c4e47aaa1257511d28257-other-other.png',
+        intro: 'Stylish audio products made for work, study, and leisure.'
+      },
+      kica: {
+        name: 'KiCA Massagers',
+        tag: 'Wellness gear',
+        image: 'https://m.media-amazon.com/images/I/216fqWAtxgL._SX300_SY300_QL70_FMwebp_.jpg',
+        intro: 'Compact recovery tools for corporate, fitness, and wellness buyers.'
+      },
+      phones: {
+        name: 'Smartphones',
+        tag: 'Mobile devices',
+        image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=80',
+        intro: 'Selected smartphones for retail and wholesale distribution.'
+      },
+      tablets: {
+        name: 'Tablets',
+        tag: 'Portable screens',
+        image: 'https://ihttps://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJqOiiewyGXdX6ol7ku4Al-PLS3Mwv1CxD0g&smages.unsplash.com/photo-1551817958-20204d6ab48d?auto=format&fit=crop&w=1200&q=80',
+        intro: 'Tablets suited for work, study, and business use.'
+      }
+    };
+
+    const products = [
+      { id:'aecooly-1', category:'aecooly', name:'Aecooly Tower Fan', brand:'Aecooly', price:3499, image:'https://aecooly.com/cdn/shop/files/PM.png?v=1774925212&width=1200', desc:'Sleek portable fan for desks, living rooms, and modern offices.', popular:true },
+      { id:'aecooly-2', category:'aecooly', name:'Aecooly Mini Fan', brand:'Aecooly', price:1999, image:'https://aecooly.com/cdn/shop/files/PM.png?v=1774925212&width=1200', desc:'Compact personal cooling solution for travel and workstations.' },
+      { id:'aecooly-3', category:'aecooly', name:'Aecooly Desk Fan', brand:'Aecooly', price:2599, image:'https://aecooly.com/cdn/shop/files/PM.png?v=1774925212&width=1200', desc:'Quiet fan designed for premium office desks.' },
+
+      { id:'edifier-1', category:'edifier', name:'Edifier Wireless Speaker', brand:'Edifier', price:5999, image:'https://media-assets.hyperinvento.com/companies/dce3e9fc-06be-4cc3-8fba-3b85f1f32e19/others/others/files/a34af22bb65c4e47aaa1257511d28257-other-other.png', desc:'Clear audio and elegant design for home and office setups.', popular:true },
+      { id:'edifier-2', category:'edifier', name:'Edifier Studio Speaker', brand:'Edifier', price:7999, image:'https://media-assets.hyperinvento.com/companies/dce3e9fc-06be-4cc3-8fba-3b85f1f32e19/others/others/files/a34af22bb65c4e47aaa1257511d28257-other-other.png', desc:'Premium sound system with a polished retail appeal.' },
+      { id:'edifier-3', category:'edifier', name:'Edifier Desktop Audio', brand:'Edifier', price:6899, image:'https://media-assets.hyperinvento.com/companies/dce3e9fc-06be-4cc3-8fba-3b85f1f32e19/others/others/files/a34af22bb65c4e47aaa1257511d28257-other-other.png', desc:'Compact audio for workspaces, counters, and showrooms.' },
+
+      { id:'kica-1', category:'kica', name:'KiCA Massage Gun', brand:'KiCA', price:8999, image:'https://m.media-amazon.com/images/I/216fqWAtxgL._SX300_SY300_QL70_FMwebp_.jpg', desc:'Portable percussion massager for recovery and wellness.', popular:true },
+      { id:'kica-2', category:'kica', name:'KiCA Slim Massager', brand:'KiCA', price:7499, image:'https://m.media-amazon.com/images/I/216fqWAtxgL._SX300_SY300_QL70_FMwebp_.jpg', desc:'Lightweight, premium, and ideal for professionals.' },
+
+      { id:'phones-1', category:'phones', name:'Galaxy-style Smartphone', brand:'Ringcel Select', price:15999, image:'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=80', desc:'High-demand smartphone category for retail buyers.' },
+      { id:'phones-2', category:'phones', name:'Compact Smart Device', brand:'Ringcel Select', price:13999, image:'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=80', desc:'Clean design with strong everyday utility.' },
+
+      { id:'tablets-1', category:'tablets', name:'Business Tablet', brand:'Ringcel Select', price:12999, image:'https://images.unsplash.com/photo-1551817958-20204d6ab48d?auto=format&fit=crop&w=1200&q=80', desc:'Tablet category for productivity, learning, and media.' },
+      { id:'tablets-2', category:'tablets', name:'Samsung Tablet', brand:'Ringcel Select', price:14999, image:'https://images.unsplash.com/photo-1551817958-20204d6ab48d?auto=format&fit=crop&w=1200&q=80', desc:'Balanced performance for corporate use and note-taking.' }
+    ];
+
+    const STORAGE_KEY = 'ringcel_cart_v2';
+    let cart = loadCart();
+
+    const app = document.getElementById('app');
+    const searchInput = document.getElementById('searchInput');
+    const navSearchWrap = document.getElementById('navSearchWrap');
+    const cartDrawer = new bootstrap.Offcanvas('#cartDrawer');
+
+    const currency = (value) => `₹${Number(value).toLocaleString('en-IN')}`;
+
+    function loadCart(){
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if(!saved) return [];
+      try{
+        const parsed = JSON.parse(saved);
+        return Array.isArray(parsed) ? parsed : [];
+      }catch{
+        return [];
+      }
+    }
+
+    function saveCart(){
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
+      updateCartBadge();
+    }
+
+    function currentRoute(){
+      const hash = location.hash.replace('#','') || 'home';
+      const [route, param] = hash.split('/');
+      return { route, param };
+    }
+
+    function setActiveNav(){
+      document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
+      const { route, param } = currentRoute();
+      const target = route === 'category' && param ? `#category/${param}` : `#${route}`;
+      const match = document.querySelector(`.nav-link[href="${target}"]`);
+      if (match) match.classList.add('active');
+    }
+
+    function updateCartBadge(){
+      const count = cart.reduce((sum, item) => sum + item.qty, 0);
+      document.getElementById('cartCount').textContent = count;
+    }
+
+    function addToCart(id){
+      const item = cart.find(x => x.id === id);
+      if(item) item.qty += 1;
+      else cart.push({ id, qty: 1 });
+      saveCart();
+      renderCart();
+    }
+
+    function decrementCart(id){
+      const item = cart.find(x => x.id === id);
+      if(!item) return;
+      item.qty -= 1;
+      if(item.qty <= 0) cart = cart.filter(x => x.id !== id);
+      saveCart();
+      renderCart();
+    }
+
+    function openCart(){
+      renderCart();
+      cartDrawer.show();
+    }
+
+    function renderCart(){
+      const container = document.getElementById('cartItems');
+      const totalEl = document.getElementById('cartTotal');
+      if(!container || !totalEl) return;
+
+      if(!cart.length){
+        container.innerHTML = `<div class="empty-state">Your quotation list is empty.</div>`;
+        totalEl.textContent = currency(0);
+        return;
+      }
+
+      let total = 0;
+      container.innerHTML = cart.map(item => {
+        const p = products.find(x => x.id === item.id);
+        if(!p) return '';
+        total += p.price * item.qty;
+        return `
+          <div class="glass-card p-3">
+            <div class="d-flex gap-3 align-items-center">
+              <img src="${p.image}" alt="${p.name}" style="width:72px;height:72px;object-fit:contain;border-radius:18px;background:rgba(255,255,255,.05);padding:.35rem;">
+              <div class="flex-grow-1">
+                <div class="fw-semibold">${p.name}</div>
+                <div class="text-secondary small">${currency(p.price)}</div>
+                <div class="d-flex align-items-center gap-2 mt-2">
+                  <button class="qty-btn" onclick="decrementCart('${p.id}')">−</button>
+                  <span>${item.qty}</span>
+                  <button class="qty-btn" onclick="addToCart('${p.id}')">+</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      totalEl.textContent = currency(total);
+    }
+
+    function getFilteredProducts(filterCategory = null){
+      const q = (searchInput.value || '').trim().toLowerCase();
+      return products.filter(p => {
+        const matchesCategory = filterCategory ? p.category === filterCategory : true;
+        const matchesSearch = !q || [p.name, p.brand, p.desc, categories[p.category]?.name].join(' ').toLowerCase().includes(q);
+        return matchesCategory && matchesSearch;
+      });
+    }
+
+    function sortProducts(items, sortValue){
+      const arr = [...items];
+      switch(sortValue){
+        case 'price-asc':
+          return arr.sort((a,b)=>a.price-b.price);
+        case 'price-desc':
+          return arr.sort((a,b)=>b.price-a.price);
+        case 'name':
+          return arr.sort((a,b)=>a.name.localeCompare(b.name));
+        case 'popular':
+          return arr.sort((a,b)=>(b.popular===true)-(a.popular===true));
+        default:
+          return arr;
+      }
+    }
+
+    function setNavSearchVisible(visible){
+      navSearchWrap.style.display = visible ? 'flex' : 'none';
+    }
+
+    function renderRoute(){
+      const { route, param } = currentRoute();
+      setActiveNav();
+      setNavSearchVisible(route === 'home' || route === 'category');
+
+      if(route === 'category' && param) renderCategoryPage(param);
+      else if(route === 'product' && param) renderProductPage(param);
+      else if(route === 'about') renderAboutPage();
+      else if(route === 'contact') renderContactPage();
+      else renderHomePage();
+
+      updateCartBadge();
+      renderCart();
+      observeReveal();
+      setupHeroMotion();
+      window.scrollTo(0, 0);
+    }
+
+    function renderHomePage(){
+      const featured = products.filter(p => p.popular).slice(0, 3);
+      const all = getFilteredProducts();
+
+      app.innerHTML = `
+        <section class="hero">
+          <div class="container hero-inner position-relative">
+            <div class="row align-items-center g-5">
+              <div class="col-lg-7">
+                <span class="hero-kicker scroll-reveal"> distribution for modern buyers</span>
+                <h1 class="scroll-reveal" style="animation-delay:.05s">Premium Electronic,Mobiles and Tablets</h1>
+                <p class="lead scroll-reveal" style="animation-delay:.1s">
+                  Ringcel brings together a focused range of electronics and lifestyle products for urban homes,
+                  workplaces, and business buyers. Clean presentation, fast browsing, and a frictionless inquiry flow.
+                </p>
+
+                <div class="d-flex flex-wrap gap-2 mt-4 scroll-reveal" style="animation-delay:.15s">
+                  <a href="#category/aecooly" class="btn btn-accent">Explore Collections</a>
+                  <a href="#contact" class="btn btn-soft">Request Quote</a>
+                </div>
+
+                <div class="row g-3 mt-5 scroll-reveal" style="animation-delay:.22s">
+                  <div class="col-6 col-md-3"><div class="metric"><div class="num">5+</div><div class="label">Collections</div></div></div>
+                  <div class="col-6 col-md-3"><div class="metric"><div class="num">12+</div><div class="label">Products</div></div></div>
+                  <div class="col-6 col-md-3"><div class="metric"><div class="num">B2B</div><div class="label">Wholesale focus</div></div></div>
+                  <div class="col-6 col-md-3"><div class="metric"><div class="num">Fast</div><div class="label">Quote workflow</div></div></div>
+                </div>
+              </div>
+
+              <div class="col-lg-5">
+                <div class="hero-shell p-4 p-lg-5 scroll-reveal float-soft" style="animation-delay:.1s">
+                  <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                    <div>
+                      <div class="text-uppercase small fw-semibold text-info">Live Collections</div>
+                      <div class="fw-semibold mt-1">Browse by category</div>
+                    </div>
+                    <span class="inline-tag">Scroll down</span>
+                  </div>
+
+                  <div class="divider"></div>
+
+                  <div class="top-strip">
+                    ${Object.entries(categories).map(([slug, cat]) => `
+                      <span class="chip" onclick="location.hash='category/${slug}'">${cat.name}</span>
+                    `).join('')}
+                  </div>
+
+                  <div class="divider"></div>
+
+                  <div class="d-grid gap-3">
+                    ${featured.map(p => `
+                      <div class="info-card p-3 hover-lift" onclick="location.hash='product/${p.id}'" style="cursor:pointer;">
+                        <div class="d-flex align-items-center justify-content-between gap-3">
+                          <div>
+                            <div class="fw-semibold">${p.name}</div>
+                            <div class="text-secondary small">${p.brand}</div>
+                          </div>
+                          <div class="text-end">
+                            <div class="fw-semibold">${currency(p.price)}</div>
+                            <div class="text-secondary small">Featured</div>
+                          </div>
+                        </div>
+                      </div>
+                    `).join('')}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section-pad">
+          <div class="container">
+            <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 align-items-lg-end mb-4">
+              <div>
+                <div class="text-uppercase small fw-semibold text-info mb-2">Shop by collection</div>
+                <h2 class="section-title mb-2">Browse product families</h2>
+                <p class="section-sub mb-0">Each collection opens a dedicated page with its own product lineup and details.</p>
+              </div>
+            </div>
+
+            <div class="row g-4">
+              ${Object.entries(categories).map(([slug, cat]) => `
+                <div class="col-md-6 col-xl-4">
+                  <div class="category-card scroll-reveal" onclick="location.hash='category/${slug}'">
+                    <div class="category-art">
+                      <span class="category-pill">${cat.tag}</span>
+                      <img src="${cat.image}" alt="${cat.name}">
+                    </div>
+                    <div class="p-4">
+                      <h3 class="h5 mb-2">${cat.name}</h3>
+                      <p class="mb-3">${cat.intro}</p>
+                      <span class="badge-soft">Open collection →</span>
+                    </div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </section>
+
+        <section class="section-pad pt-0">
+          <div class="container">
+            <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 align-items-lg-end mb-4">
+              <div>
+                <div class="text-uppercase small fw-semibold text-info mb-2">Highlighted products</div>
+                <h2 class="section-title mb-2">Featured items</h2>
+                <p class="section-sub mb-0">Large imagery, clear names, and a calm layout keep the page easy to use.</p>
+              </div>
+              <div class="d-flex gap-2 flex-wrap">
+                <button class="btn btn-soft btn-sm" onclick="document.getElementById('searchInput').value=''; renderRoute();">Clear search</button>
+                <a href="#contact" class="btn btn-accent btn-sm">Request quote</a>
+              </div>
+            </div>
+
+            <div class="row g-4">
+              ${all.length ? all.map(renderProductCard).join('') : `<div class="col-12"><div class="empty-state text-center">No products match your search.</div></div>`}
+            </div>
+          </div>
+        </section>
+
+        <section class="section-pad pt-0">
+          <div class="container">
+            <div class="story-block scroll-reveal">
+              <div class="row g-4 align-items-center">
+                <div class="col-lg-6">
+                  <div class="text-uppercase small fw-semibold text-info mb-2">A refined experience</div>
+                  <h2 class="section-title mb-3">Minimal surface, clear hierarchy, smooth motion.</h2>
+                  <p class="section-sub mb-0">
+                    The interface focuses on product discovery, fast navigation, and a premium feel without unnecessary visual noise.
+                  </p>
+                </div>
+                <div class="col-lg-6">
+                  <div class="story-mosaic">
+                    <div class="mosaic-image">
+                      <img src="${featured[0]?.image || categories.aecooly.image}" alt="Featured collection" />
+                    </div>
+                    <div class="d-grid gap-3">
+                      <div class="info-card p-3">
+                        <div class="fw-semibold mb-1">Readable cards</div>
+                        <div class="text-secondary small">Product names are always placed where they are easy to read.</div>
+                      </div>
+                      <div class="info-card p-3">
+                        <div class="fw-semibold mb-1">Smooth motion</div>
+                        <div class="text-secondary small">Fade-ins and hover lifts keep the experience lively.</div>
+                      </div>
+                      <div class="info-card p-3">
+                        <div class="fw-semibold mb-1">Simple actions</div>
+                        <div class="text-secondary small">Save items to the quote list and proceed to inquiry.</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      `;
+    }
+
+    function renderCategoryPage(slug){
+      const cat = categories[slug];
+      if(!cat){ location.hash = '#home'; return; }
+
+      const sortValue = 'featured';
+      const items = sortProducts(getFilteredProducts(slug), sortValue);
+
+      app.innerHTML = `
+        <section class="page-top">
+          <div class="container">
+            <div class="glass-card p-4 p-lg-5 mb-4 scroll-reveal" style="background:linear-gradient(135deg, rgba(10,132,255,.14), rgba(255,255,255,.04));">
+              <div class="row align-items-center g-4">
+                <div class="col-lg-7">
+                  <div class="text-uppercase small fw-semibold text-info mb-2">Collection page</div>
+                  <h1 class="section-title mb-3">${cat.name}</h1>
+                  <p class="section-sub mb-0">
+                    ${cat.intro} This collection page is structured to feel calm, direct, and easy to browse.
+                  </p>
+                  <div class="mt-4 d-flex flex-wrap gap-2">
+                    <a href="#home" class="btn btn-soft">Back to home</a>
+                    <a href="#contact" class="btn btn-accent">Request bulk quote</a>
+                  </div>
+                </div>
+                <div class="col-lg-5 text-center">
+                  <div class="hero-shell p-2 p-md-3">
+                    <img src="${cat.image}" alt="${cat.name}" style="max-width:100%; max-height:300px; object-fit:contain; padding:1rem;">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 align-items-lg-center mb-3">
+              <div>
+                <h2 class="h4 mb-1">Collection items</h2>
+                <p class="text-secondary mb-0">A focused grid with strong spacing and visible product titles</p>
+              </div>
+              <div class="d-flex flex-wrap gap-2 align-items-center">
+                <span class="inline-tag">${items.length} products</span>
+                <div class="btn-group" role="group" aria-label="Filter">
+                  <button class="btn btn-soft btn-sm active" onclick="setQuickFilter('all')">All</button>
+                  <button class="btn btn-soft btn-sm" onclick="setQuickFilter('popular')">Popular</button>
+                  <button class="btn btn-soft btn-sm" onclick="setQuickFilter('price-asc')">Low price</button>
+                  <button class="btn btn-soft btn-sm" onclick="setQuickFilter('price-desc')">High price</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="row g-4">
+              ${items.length ? items.map(renderProductCard).join('') : `<div class="col-12"><div class="empty-state text-center">No items in this collection match your search.</div></div>`}
+            </div>
+          </div>
+        </section>
+      `;
+    }
+
+    function renderProductPage(id){
+      const p = products.find(x => x.id === id);
+      if(!p){ location.hash = '#home'; return; }
+
+      const related = products.filter(x => x.category === p.category && x.id !== p.id).slice(0,3);
+
+      app.innerHTML = `
+        <section class="page-top">
+          <div class="container">
+            <div class="mb-3 scroll-reveal">
+              <a href="#category/${p.category}" class="btn btn-soft btn-sm">← Back to ${categories[p.category].name}</a>
+            </div>
+
+            <div class="row g-4 align-items-stretch">
+              <div class="col-lg-6">
+                <div class="product-hero scroll-reveal">
+                  <img src="${p.image}" alt="${p.name}">
+                </div>
+              </div>
+
+              <div class="col-lg-6">
+                <div class="glass-card h-100 p-4 p-lg-5 section-sticky scroll-reveal">
+                  <div class="d-flex flex-wrap gap-2 mb-3">
+                    <span class="badge-soft">${categories[p.category].name}</span>
+                    <span class="badge-soft badge-dark">${p.brand}</span>
+                    ${p.popular ? '<span class="badge-soft badge-dark">Featured</span>' : ''}
+                  </div>
+
+                  <h1 class="section-title mb-3">${p.name}</h1>
+                  <div class="price mb-3">${currency(p.price)}</div>
+                  <p class="section-sub mb-4">${p.desc}</p>
+
+                  <div class="spec-grid mb-4">
+                    <div class="spec"><div class="k">Category</div><div class="v">${categories[p.category].name}</div></div>
+                    <div class="spec"><div class="k">Brand</div><div class="v">${p.brand}</div></div>
+                    <div class="spec"><div class="k">Use case</div><div class="v">Wholesale / B2B</div></div>
+                    <div class="spec"><div class="k">Inquiry</div><div class="v">Bulk pricing</div></div>
+                  </div>
+
+                  <div class="d-flex flex-wrap gap-2">
+                    <button class="btn btn-accent" onclick="addToCart('${p.id}')">Save to quote</button>
+                    <a href="#contact" class="btn btn-soft">Ask for pricing</a>
+                    <button class="btn btn-soft" onclick="copyLink()">Copy link</button>
+                  </div>
+
+                  <div class="divider"></div>
+
+                  <div class="row g-3 text-center">
+                    <div class="col-4">
+                      <div class="fw-semibold">Clean</div>
+                      <div class="text-secondary small">Easy to scan</div>
+                    </div>
+                    <div class="col-4">
+                      <div class="fw-semibold">Smooth</div>
+                      <div class="text-secondary small">Soft transitions</div>
+                    </div>
+                    <div class="col-4">
+                      <div class="fw-semibold">Readable</div>
+                      <div class="text-secondary small">Clear hierarchy</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-5 scroll-reveal">
+              <div class="d-flex justify-content-between align-items-end mb-3">
+                <div>
+                  <h2 class="h4 mb-1">Related items</h2>
+                  <p class="text-secondary mb-0">Other products from the same collection</p>
+                </div>
+              </div>
+              <div class="row g-4">
+                ${related.length ? related.map(renderProductCard).join('') : `<div class="col-12"><div class="empty-state text-center">No related products yet.</div></div>`}
+              </div>
+            </div>
+          </div>
+        </section>
+      `;
+    }
+
+    function renderAboutPage(){
+      app.innerHTML = `
+        <section class="page-top">
+          <div class="container">
+            <div class="glass-card p-4 p-lg-5 scroll-reveal">
+              <div class="row align-items-center g-4">
+                <div class="col-lg-7">
+                  <div class="text-uppercase small fw-semibold text-info mb-2">About Ringcel</div>
+                  <h1 class="section-title mb-3">Wholesale electronics built for modern buyers</h1>
+                  <p class="section-sub mb-0">
+                    Ringcel distributes consumer electronics and lifestyle products to urban customers, office professionals,
+                    and retail partners. The site is designed to be premium, readable, and easy to navigate.
+                  </p>
+                </div>
+                <div class="col-lg-5">
+                  <div class="info-card p-4">
+                    <div class="fw-semibold mb-2">Website goals</div>
+                    <ul class="text-secondary mb-0 ps-3">
+                      <li>Showcase products and collections</li>
+                      <li>Support inquiries and quotations</li>
+                      <li>Keep navigation simple and fast</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row g-4 mt-1">
+              <div class="col-lg-4">
+                <div class="info-card p-4 scroll-reveal hover-lift">
+                  <div class="fw-semibold mb-2">Design style</div>
+                  <div class="text-secondary">Minimal, high-contrast, spacious, and premium.</div>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="info-card p-4 scroll-reveal hover-lift">
+                  <div class="fw-semibold mb-2">Motion</div>
+                  <div class="text-secondary">Fade-ups, hover lift, and gentle transitions.</div>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="info-card p-4 scroll-reveal hover-lift">
+                  <div class="fw-semibold mb-2">Structure</div>
+                  <div class="text-secondary">Home, collection pages, product pages, about, and contact.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      `;
+    }
+
+    function renderContactPage(){
+      app.innerHTML = `
+        <section class="page-top">
+          <div class="container">
+            <div class="row g-4 align-items-stretch">
+              <div class="col-lg-5">
+                <div class="glass-card p-4 h-100 scroll-reveal">
+                  <div class="text-uppercase small fw-semibold text-info mb-2">Contact</div>
+                  <h1 class="section-title mb-3">Request bulk pricing</h1>
+                  <p class="text-secondary">Use this form for distribution requests, quotations, or product inquiries.</p>
+
+                  <div class="mt-4 d-grid gap-3">
+                    <div class="info-card p-3">
+                      <strong>Email</strong>
+                      <div class="text-secondary">ringcel@example.com</div>
+                    </div>
+                    <div class="info-card p-3">
+                      <strong>Business type</strong>
+                      <div class="text-secondary">Wholesale consumer electronics</div>
+                    </div>
+                    <div class="info-card p-3">
+                      <strong>Target market</strong>
+                      <div class="text-secondary">Urban areas and corporate buyers</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-7">
+                <div class="glass-card p-4 p-lg-5 scroll-reveal">
+                  <form onsubmit="event.preventDefault(); alert('Inquiry submitted.'); this.reset();">
+                    <div class="row g-3">
+                      <div class="col-md-6"><input class="form-control" placeholder="Your name" required></div>
+                      <div class="col-md-6"><input class="form-control" type="email" placeholder="Email" required></div>
+                      <div class="col-12"><input class="form-control" placeholder="Subject"></div>
+                      <div class="col-12"><textarea class="form-control" rows="6" placeholder="Tell us what you need" required></textarea></div>
+                      <div class="col-12 d-flex flex-wrap gap-2">
+                        <button class="btn btn-accent" type="submit">Send inquiry</button>
+                        <a href="#home" class="btn btn-soft">Back home</a>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      `;
+    }
+
+    function renderProductCard(p){
+      return `
+        <div class="col-md-6 col-xl-4">
+          <div class="product-card scroll-reveal">
+            <div class="product-image" onclick="location.hash='product/${p.id}'" style="cursor:pointer;">
+              <img src="${p.image}" alt="${p.name}">
+            </div>
+            <div class="product-body">
+              <div class="d-flex align-items-center justify-content-between gap-2 mb-2">
+                <span class="badge-soft">${categories[p.category].name}</span>
+                ${p.popular ? '<span class="badge-soft badge-dark">Featured</span>' : ''}
+              </div>
+              <h3 class="product-name mb-2">${p.name}</h3>
+              <div class="product-meta mb-2">${p.brand}</div>
+              <p class="product-meta mb-3">${p.desc}</p>
+              <div class="d-flex justify-content-between align-items-center gap-2">
+                <div class="price">${currency(p.price)}</div>
+                <div class="d-flex gap-2">
+                  <button class="btn btn-sm btn-soft" onclick="location.hash='product/${p.id}'">View</button>
+                  <button class="btn btn-sm btn-accent" onclick="addToCart('${p.id}')">Save</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function observeReveal(){
+      const items = document.querySelectorAll('.scroll-reveal');
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if(entry.isIntersecting) entry.target.classList.add('visible');
+        });
+      }, { threshold: 0.12 });
+
+      items.forEach(el => io.observe(el));
+    }
+
+    function setupHeroMotion(){
+      const hero = document.querySelector('.hero');
+      if(!hero) return;
+
+      const onScroll = () => {
+        const y = window.scrollY || 0;
+        const offset1 = Math.min(y * 0.04, 24);
+        const offset2 = Math.min(y * 0.02, 14);
+        hero.style.setProperty('--heroY1', `${offset1}px`);
+        hero.style.setProperty('--heroY2', `${offset2}px`);
+      };
+
+      if(setupHeroMotion._handler){
+        window.removeEventListener('scroll', setupHeroMotion._handler);
+      }
+      setupHeroMotion._handler = onScroll;
+      window.addEventListener('scroll', onScroll, { passive:true });
+      onScroll();
+    }
+
+    function setQuickFilter(mode){
+      if(location.hash !== '#home') location.hash = '#home';
+
+      if(mode === 'all'){
+        searchInput.value = '';
+        renderRoute();
+        return;
+      }
+
+      if(mode === 'popular'){
+        searchInput.value = 'featured';
+        renderRoute();
+        return;
+      }
+
+      if(mode === 'price-asc' || mode === 'price-desc'){
+        const items = sortProducts(getFilteredProducts(), mode);
+        app.querySelectorAll('.product-card').forEach(el => el.remove());
+        app.querySelector('.row.g-4')?.replaceChildren();
+        return;
+      }
+    }
+
+    function copyLink(){
+      navigator.clipboard?.writeText(location.href).then(() => {
+        alert('Link copied.');
+      }).catch(() => {
+        alert('Copy not available on this device.');
+      });
+    }
+
+    window.addToCart = addToCart;
+    window.decrementCart = decrementCart;
+    window.openCart = openCart;
+    window.setQuickFilter = setQuickFilter;
+    window.copyLink = copyLink;
+
+    window.addEventListener('hashchange', renderRoute);
+    window.addEventListener('load', () => {
+      if(!location.hash) location.hash = '#home';
+      updateCartBadge();
+      renderRoute();
+    });
+  </script>
+</body>
+</html>
